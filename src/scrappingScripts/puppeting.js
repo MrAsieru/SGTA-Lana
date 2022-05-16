@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 class Puppet {
 
     constructor() {
-        this.headless = false
+        this.headless = true
         this.args = ["--no-sandbox", "--disable-dev-shm-usage"]
         this.browser = null;
         this.page = null;

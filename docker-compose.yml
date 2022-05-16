@@ -2,12 +2,12 @@ version: "3.7"
 
 services:
   ionic:
-    image: unaihurtado/sgtalana:main
+    image: unaihurtado/sgtalana:last
     ports:
       - "8100:80"
     restart: unless-stopped
   node:
-    image: unaihurtado/sgtalana-server:main
+    image: unaihurtado/sgtalana-server:last
     ports:
       - "8080:8080"
     restart: unless-stopped
