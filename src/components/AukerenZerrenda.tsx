@@ -30,10 +30,19 @@ export function AukerenZerrenda(props: any) {
         return xhr;
       },
       success: function() {
-        let erantzuna = JSON.parse(xhr.response);
-        console.log(erantzuna);
-        setAukeraData(erantzuna);
-        setKargatzen(false);
+        if (xhr.response.length > 0) {
+          let erantzuna = JSON.parse(xhr.response);
+          setAukeraData(erantzuna);
+          setKargatzen(false);
+        } else {
+          present({
+            header: 'Errorea',
+            message: 'Ezin izan da informazioa lortu, berriro saiatu. Errorea: testu hutsa jaso da',
+            buttons: [
+              { text: 'Ok' }
+            ]
+          })
+        }
       },
       error: function() {
         present({
