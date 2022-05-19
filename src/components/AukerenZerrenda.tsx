@@ -15,11 +15,14 @@ export function AukerenZerrenda(props: any) {
   const [present] = useIonAlert();
 
   useEffect(() => {
-    /* test(props.hasiera, props.helmuga).then(aukerak => {
+    // Scrapping zerbitzua probatzeko
+    /*
+    test(props.hasiera, props.helmuga).then(aukerak => {
       setAukeraData(aukerak);
-    }); */
+    });
+    */
 
-
+    // Hurrengo kodea komentatu aurrekoa probatzeko
     var xhr = new XMLHttpRequest();
     console.log(props.hasiera);
     $.ajax({
@@ -30,18 +33,19 @@ export function AukerenZerrenda(props: any) {
         return xhr;
       },
       success: function() {
-        if (xhr.response.length > 0) {
+        if (JSON.parse(xhr.response).length > 0) {
           let erantzuna = JSON.parse(xhr.response);
           setAukeraData(erantzuna);
           setKargatzen(false);
         } else {
           present({
             header: 'Errorea',
-            message: 'Ezin izan da informazioa lortu, berriro saiatu. Errorea: testu hutsa jaso da',
+            message: 'Ezin izan da informazioa lortu, berriro saiatu. Errorea: erantzuna hutsa da',
             buttons: [
               { text: 'Ok' }
             ]
-          })
+          });
+          setKargatzen(false);
         }
       },
       error: function() {
@@ -56,6 +60,7 @@ export function AukerenZerrenda(props: any) {
       },
       timeout: 300000
   	})
+    
   }, []);
 
   function aukerakOrdenatu() {
@@ -101,7 +106,7 @@ export function AukerenZerrenda(props: any) {
     <IonList id="zerrenda">
       {aukeraData.length > 0 ? (
         aukeraData.map(item => (
-          <IonCard button onClick={() => aukeraIrudikatu(item)} key={item.id}>
+          <IonCard button onClick={() => aukeraIrudikatu(props.hasiera, props.helmuga, item)} key={item.id}>
             <IonCardHeader>
               <IonCardTitle>{item.denbora.hasiera} - {item.denbora.amaiera} ({iraupenaInprimatu(item.denbora.iraupena!)})</IonCardTitle>
               <IonCardSubtitle>{item.xehetasunak.ibilbideak.length} garraiobide</IonCardSubtitle>

@@ -32,21 +32,23 @@ const endIcon: L.Icon = L.icon({
 });
 let lerroa: L.Polyline;
 
-export function aukeraIrudikatu(aukera: Aukera) {
+export function aukeraIrudikatu(hasiera: string, helmuga: string, aukera: Aukera) {
   markerGuztiakEzabatu();
 
   // Aukeraren garraiobide guztiak zeharkatu
+  let index = 0;
+
+  markerSortu(hasiera, index++, startIcon);
   for (let i = 0; i < aukera.xehetasunak.ibilbideak.length; i++) {
-    markerSortu(aukera.xehetasunak.ibilbideak[i].kokapenak.hasiera, i, (i === 0) ? startIcon : transferIcon);
-    if (i == aukera.xehetasunak.ibilbideak.length - 1) {
-      markerSortu(aukera.xehetasunak.ibilbideak[i].kokapenak.amaiera, i + 1, endIcon);
-    } else {
-      markerSortu(aukera.xehetasunak.ibilbideak[i].kokapenak.amaiera, i + 1, transferIcon);
-    }
+    markerSortu(aukera.xehetasunak.ibilbideak[i].kokapenak.hasiera, index++, transferIcon);
+    markerSortu(aukera.xehetasunak.ibilbideak[i].kokapenak.amaiera, index++, transferIcon);
   }
+  markerSortu(helmuga, index++, endIcon);
 }
 function markerSortu(lekua: string, index: Number, markerIcon: L.Icon) {
   // Konprobatu koordenatuak baditu, ez bada, geokodifikatu
+  if (lekua === '') return;
+
   let koord = getLekuarenKoordenatuak(lekua);
   if (koord != undefined) {
     // Marker sortu

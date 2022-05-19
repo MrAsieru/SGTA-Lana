@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToggle, IonToolbar, ToggleChangeEventDetail, useIonRouter } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToggle, IonToolbar, ToggleChangeEventDetail, useIonAlert, useIonRouter } from '@ionic/react';
 import { moon } from 'ionicons/icons';
 import { useState } from 'react';
 import './Hasiera.css';
@@ -9,8 +9,20 @@ const Hasiera: React.FC = () => {
   const [hasiera, setHasiera] = useState('');
   const [helmuga, setHelmuga] = useState('');
 
+  const [present] = useIonAlert();
+
   const emaitzaKargatu = () => {
-    router.push('/emaitza/'+hasiera+'/'+helmuga, "forward");
+    if (hasiera !== '' && helmuga !== '') {
+      router.push('/emaitza/'+encodeURIComponent(hasiera)+'/'+encodeURIComponent(helmuga), "forward");
+    } else {
+      present({
+        header: 'Errorea',
+        message: 'Hasiera eta helmuga eremuak bete behar dira',
+        buttons: [
+          { text: 'Ok' }
+        ]
+      });
+    }
   }
 
   const darkModeEnabled = document.body.classList.contains('dark');
